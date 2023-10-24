@@ -1,4 +1,4 @@
-import { Badge, Button, Image } from "react-bootstrap";
+import { Badge, Button, Container, Image } from "react-bootstrap";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css/bundle";
@@ -76,7 +76,7 @@ export default function ToyCarouselList({
   const mode = localStorage.getItem("mode")!;
   return (
     <>
-      <div className="d-flex flex-column">
+      <Container fluid className="flex-column">
         <div className="mb-3 d-flex gap-4">
           <span className="fw-bold fs-3 text-uppercase">{title}</span>
           <div className="d-flex gap-3">
@@ -111,7 +111,7 @@ export default function ToyCarouselList({
             ))}
           </Swiper>
         </div>
-      </div>
+      </Container>
     </>
   );
 }

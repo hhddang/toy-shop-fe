@@ -2,12 +2,12 @@ import { Brand } from "../models/brand";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css/bundle";
-import { Image } from "react-bootstrap";
+import { Container, Image } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 
 export default function BrandList({ brandList }: { brandList: Brand[] }) {
   return (
-    <div className="d-flex flex-column gap-3">
+    <Container fluid className="d-flex flex-column gap-3">
       <span className="fw-bold fs-3 text-uppercase">Popular Toy Brands</span>
       <div className="brand-list w-100">
         <Swiper
@@ -29,6 +29,6 @@ export default function BrandList({ brandList }: { brandList: Brand[] }) {
           ))}
         </Swiper>
       </div>
-    </div>
+    </Container>
   );
 }
