@@ -19,6 +19,7 @@ function Header() {
   const [mode, setMode] = useState<"dark" | "light">("dark");
   const changeMode = () => {
     setMode(mode === "light" ? "dark" : "light");
+    localStorage.setItem("mode", mode);
   };
   const cartItemCount = 2;
   const userInfo = {};
