@@ -7,7 +7,6 @@ import {
   Form,
   Nav,
   Navbar,
-  ListGroup,
   OverlayTrigger,
   Tooltip,
   Col,
@@ -16,6 +15,7 @@ import { LinkContainer } from "react-router-bootstrap";
 import { Link } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { Store } from "../store";
+import { DropdownMenu } from "@components";
 
 function Header() {
   const {
@@ -121,6 +121,7 @@ function Header() {
                       <i className="fa-solid fa-star fa-xl"></i>
                     </Link>
                   </OverlayTrigger>
+
                   <DropdownButton
                     variant={mode}
                     align={{ lg: "end" }}
@@ -153,101 +154,66 @@ function Header() {
         </Container>
       </Navbar>
 
-      <Navbar
-        className="bg-danger d-flex justify-content-center p-0"
+      <div
+        className="d-flex gap-3 justify-content-center align-items-center bg-danger"
         id="sticky-navbar">
-        <Nav className="d-flex align-items-center">
-          <LinkContainer
-            to="/catalog/new-toys"
-            className="text-light fw-semibold">
-            <Nav.Link>New Toys</Nav.Link>
-          </LinkContainer>
+        <LinkContainer
+          to="/catalog/new-toys"
+          className="text-light fw-semibold">
+          <Nav.Link>New Toys</Nav.Link>
+        </LinkContainer>
 
-          <DropdownMenu
-            title="All Toys"
-            menuList={[
-              {
-                title: "Movie Toys",
-                itemList: ["Super Heroes", "Monsters", "Robots"],
-              },
-              {
-                title: "Assemble Toys",
-                itemList: ["Lego", "SemiBlock", "Others"],
-              },
-              { title: "Activity Toys", itemList: ["Indoor", "Outdoor"] },
-            ]}
-          />
+        <DropdownMenu
+          title={<button className="fw-semibold text-light">All Toys</button>}
+          place="center"
+          menuList={[
+            {
+              title: "Movie Toys",
+              itemList: ["Super Heroes", "Monsters", "Robots"],
+            },
+            {
+              title: "Assemble Toys",
+              itemList: ["Lego", "SemiBlock", "Others"],
+            },
+            { title: "Activity Toys", itemList: ["Indoor", "Outdoor"] },
+            {
+              title: "Movie Toys",
+              itemList: ["Super Heroes", "Monsters", "Robots"],
+            },
+            {
+              title: "Assemble Toys",
+              itemList: ["Lego", "SemiBlock", "Others"],
+            },
+            { title: "Activity Toys", itemList: ["Indoor", "Outdoor"] },
+            {
+              title: "Movie Toys",
+              itemList: ["Super Heroes", "Monsters", "Robots"],
+            },
+            {
+              title: "Assemble Toys",
+              itemList: ["Lego", "SemiBlock", "Others"],
+            },
+            { title: "Activity Toys", itemList: ["Indoor", "Outdoor"] },
+          ]}
+        />
 
-          <DropdownMenu
-            title="Genders"
-            menuList={[{ itemList: ["Boy", "Girl", "Unisex"] }]}
-          />
+        <DropdownMenu
+          title={<button className="fw-semibold text-light">Genders</button>}
+          menuList={[{ itemList: ["Boy", "Girl", "Unisex"] }]}
+        />
 
-          <DropdownMenu
-            title="Ages"
-            menuList={[{ itemList: ["0-3 years", "3-12 years", "12 years +"] }]}
-          />
+        <DropdownMenu
+          title={<button className="fw-semibold text-light">Ages</button>}
+          menuList={[{ itemList: ["0-3 years", "3-12 years", "12 years +"] }]}
+        />
 
-          <DropdownMenu
-            title="Brands"
-            menuList={[{ itemList: ["Lego", "Marvel"] }]}
-          />
-        </Nav>
-      </Navbar>
+        <DropdownMenu
+          title={<button className="fw-semibold text-light">Brands</button>}
+          menuList={[{ itemList: ["Lego", "Marvel"] }]}
+        />
+      </div>
     </header>
   );
 }
-
-type DropdownMenu = {
-  title?: string;
-  itemList: string[];
-};
-
-type DropdownMenuProps = {
-  title: string;
-  menuList: DropdownMenu[];
-};
-
-const DropdownMenu = ({ title, menuList }: DropdownMenuProps) => {
-  return (
-    <>
-      <Dropdown>
-        <Dropdown.Toggle variant="danger" className="fw-semibold">
-          {title}
-        </Dropdown.Toggle>
-
-        {menuList.length <= 1 ? (
-          <Dropdown.Menu>
-            {menuList[0].itemList.map((item, index) => (
-              <Dropdown.Item key={index}>{item}</Dropdown.Item>
-            ))}
-          </Dropdown.Menu>
-        ) : (
-          <Dropdown.Menu className="p-0">
-            <ListGroup horizontal as="div">
-              {menuList.map((menu, index) => (
-                <ListGroup.Item as="div" className="col-6 px-0" key={index}>
-                  <span className="fw-semibold p-3">{menu.title || ""}</span>
-                  <ListGroup as="div">
-                    {menu.itemList.map((menuItem, index) => (
-                      <LinkContainer
-                        to={`/catalog/${menuItem
-                          .replace(" ", "-")
-                          .toLowerCase()}`}
-                        className="border-0 px-3 py-1"
-                        key={index}>
-                        <Dropdown.Item>{menuItem}</Dropdown.Item>
-                      </LinkContainer>
-                    ))}
-                  </ListGroup>
-                </ListGroup.Item>
-              ))}
-            </ListGroup>
-          </Dropdown.Menu>
-        )}
-      </Dropdown>
-    </>
-  );
-};
 
 export default Header;
