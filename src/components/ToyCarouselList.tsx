@@ -30,38 +30,42 @@ const ToyItem = ({ toy }: { toy: Toy }) => {
   }, [id, imageList]);
 
   return (
-    <LinkContainer to={`/toy/${id}`}>
-      <a id={`toy-item-${id}`}>
-        <Image src={imgUrl} className="w-100 p-0"></Image>
+    <div className="border">
+      <LinkContainer to={`/toy/${id}`}>
+        <a id={`toy-item-${id}`} className="">
+          <Image src={imgUrl} className="w-100 p-0"></Image>
 
-        <div className="d-flex flex-column gap-2 p-2">
-          <span className="fw-bold">{name}</span>
-          <span>SKU: {id}</span>
-          <div className="d-flex justify-content-between fw-semibold">
-            <span className="text-danger">{price} VND</span>
-            {isDiscounted && (
-              <span className="text-decoration-line-through">
-                {oldPrice} VND
-              </span>
-            )}
+          <div className="d-flex flex-column gap-2 p-2 bg-light text-dark">
+            <span className="fw-bold">{name}</span>
+            <span>SKU: {id}</span>
+            <div className="d-flex justify-content-between fw-semibold">
+              <span className="text-danger">{price} VND</span>
+              {isDiscounted && (
+                <span className="text-decoration-line-through">
+                  {oldPrice} VND
+                </span>
+              )}
+            </div>
           </div>
-        </div>
 
-        {isDiscounted && (
-          <Badge bg="danger" className="position-absolute top-0 fs-6 rounded-0">
-            {discount}%
-          </Badge>
-        )}
+          {isDiscounted && (
+            <Badge
+              bg="danger"
+              className="position-absolute top-0 fs-6 rounded-0">
+              {discount}%
+            </Badge>
+          )}
 
-        {isNew && (
-          <Badge
-            bg="danger"
-            className="position-absolute top-0 end-0 fs-6 rounded-0 z-1">
-            New
-          </Badge>
-        )}
-      </a>
-    </LinkContainer>
+          {isNew && (
+            <Badge
+              bg="danger"
+              className="position-absolute top-0 end-0 fs-6 rounded-0 z-1">
+              New
+            </Badge>
+          )}
+        </a>
+      </LinkContainer>
+    </div>
   );
 };
 
@@ -73,7 +77,6 @@ export default function ToyCarouselList({
   toyList: Toy[];
 }) {
   const brandList = ["Lego", "Semiblocks", "Barbie"];
-  const mode = localStorage.getItem("mode")!;
   return (
     <>
       <Container fluid className="flex-column">
@@ -82,9 +85,7 @@ export default function ToyCarouselList({
           <div className="d-flex gap-3">
             {brandList.map((brand, index) => (
               <LinkContainer to={`catalog/brand/${brand}`} key={index}>
-                <Button
-                  variant={mode == "light" ? "dark" : "light"}
-                  className="border-2">
+                <Button variant="danger" className="border-2">
                   {brand}
                 </Button>
               </LinkContainer>
@@ -105,7 +106,7 @@ export default function ToyCarouselList({
               disableOnInteraction: false,
             }}>
             {toyList.map((toy, index) => (
-              <SwiperSlide key={index} className="border">
+              <SwiperSlide key={index}>
                 <ToyItem toy={toy} />
               </SwiperSlide>
             ))}

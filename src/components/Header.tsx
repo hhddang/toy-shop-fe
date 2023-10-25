@@ -10,16 +10,20 @@ import {
   ListGroup,
   OverlayTrigger,
   Tooltip,
+  Col,
 } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { Store } from "../store";
 
 function Header() {
-  const [mode, setMode] = useState<"dark" | "light">("dark");
+  const {
+    state: { mode },
+    dispatch,
+  } = useContext(Store);
   const changeMode = () => {
-    setMode(mode === "light" ? "dark" : "light");
-    localStorage.setItem("mode", mode);
+    dispatch({ type: "MODE_CHANGE" });
   };
   const cartItemCount = 2;
   const userInfo = {};
@@ -36,7 +40,6 @@ function Header() {
     if (topNavbar && stickyNavbar) {
       window.addEventListener("scroll", () => {
         const topNavbarBounding = topNavbar!.getBoundingClientRect();
-
         if (-topNavbarBounding.y >= topNavbarBounding.height) {
           stickyNavbar?.classList.add("sticky-navbar--active");
         } else {
@@ -48,99 +51,105 @@ function Header() {
 
   return (
     <header>
-      <Navbar className={`p-3 shadow-sm`} id="top-navbar">
-        <Container fluid className="h-100">
-          <LinkContainer to="/" className="col-3">
-            <Navbar.Brand className="text-xl fw-bold">ToyMe</Navbar.Brand>
-          </LinkContainer>
+      <Navbar className={`py-2 shadow-sm`} id="top-navbar">
+        <Container fluid>
+          <Col>
+            <LinkContainer to="/">
+              <Navbar.Brand className="fs-2 fw-bold">ToyMe</Navbar.Brand>
+            </LinkContainer>
+          </Col>
 
-          <Form className="d-flex col-6">
-            <Form.Control
-              type="search"
-              placeholder="Find toys"
-              className="rounded-0"
-              onChange={(e) => setSearchText(e.target.value)}
-            />
-            <Button
-              variant={mode === "light" ? "dark" : "light"}
-              className={`rounded-0 border-0 outline-none`}>
-              Search
-            </Button>
-          </Form>
-
-          <Nav className="d-flex gap-3 align-items-center justify-content-end col-3">
-            <OverlayTrigger
-              overlay={<Tooltip>Change theme</Tooltip>}
-              placement="bottom">
-              <Button variant={mode} onClick={changeMode}>
-                <i
-                  className={`${
-                    mode === "light" ? "fa fa-sun" : "fa fa-moon"
-                  } fa-xl`}></i>
+          <Col className="col-5">
+            <Form className="d-flex">
+              <Form.Control
+                type="search"
+                placeholder="Find toys"
+                className="rounded-0"
+                onChange={(e) => setSearchText(e.target.value)}
+              />
+              <Button
+                variant="danger"
+                className={`rounded-0 border-0 outline-none`}>
+                Search
               </Button>
-            </OverlayTrigger>
+            </Form>
+          </Col>
 
-            <OverlayTrigger
-              overlay={<Tooltip>Open Cart</Tooltip>}
-              placement="bottom">
-              <Link
-                to="/cart"
-                className={`nav-link position-relative ${
-                  mode === "light" ? "text-dark" : "text-light"
-                }`}>
-                <i className="fa-solid fa-cart-shopping fa-xl"></i>
-                {cartItemCount > 0 && (
-                  <Badge
-                    pill
-                    bg="danger"
-                    className="position-absolute top-0 start-100 translate-middle">
-                    {cartItemCount}
-                  </Badge>
-                )}
-              </Link>
-            </OverlayTrigger>
+          <Col>
+            <Nav className="d-flex gap-3 align-items-center justify-content-end">
+              <OverlayTrigger
+                overlay={<Tooltip>Change theme</Tooltip>}
+                placement="bottom">
+                <Button variant={mode} onClick={changeMode}>
+                  <i
+                    className={`${
+                      mode === "light" ? "fa fa-sun" : "fa fa-moon"
+                    } fa-xl`}></i>
+                </Button>
+              </OverlayTrigger>
 
-            {userInfo ? (
-              <>
-                <OverlayTrigger
-                  overlay={<Tooltip>ToyMe Member</Tooltip>}
-                  placement="bottom">
-                  <Link
-                    to="/member"
-                    className={`nav-link ${
-                      mode === "light" ? "text-dark" : "text-light"
-                    }`}>
-                    <i className="fa-solid fa-star fa-xl"></i>
-                  </Link>
-                </OverlayTrigger>
-                <DropdownButton
-                  variant={mode}
-                  align={{ lg: "end" }}
-                  title={<i className="fa-solid fa-user fa-xl"></i>}>
-                  <LinkContainer to="/profile">
-                    <Dropdown.Item>Your Profile</Dropdown.Item>
-                  </LinkContainer>
-                  <LinkContainer to="/profile/history">
-                    <Dropdown.Item>Order History</Dropdown.Item>
-                  </LinkContainer>
-                  <LinkContainer to="/profile/wishlist">
-                    <Dropdown.Item>Wishlist</Dropdown.Item>
-                  </LinkContainer>
-                  <LinkContainer to="/profile/shipping">
-                    <Dropdown.Item>Shipping Address</Dropdown.Item>
-                  </LinkContainer>
-                </DropdownButton>
-              </>
-            ) : (
-              <Link
-                to="/signin"
-                className={`nav-link ${
-                  mode === "light" ? "text-dark" : "text-light"
-                }`}>
-                <i className="fa-solid fa-right-to-bracket fa-xl"></i>
-              </Link>
-            )}
-          </Nav>
+              <OverlayTrigger
+                overlay={<Tooltip>Open Cart</Tooltip>}
+                placement="bottom">
+                <Link
+                  to="/cart"
+                  className={`nav-link position-relative ${
+                    mode === "light" ? "text-dark" : "text-light"
+                  }`}>
+                  <i className="fa-solid fa-cart-shopping fa-xl"></i>
+                  {cartItemCount > 0 && (
+                    <Badge
+                      pill
+                      bg="danger"
+                      className="position-absolute top-0 start-100 translate-middle">
+                      {cartItemCount}
+                    </Badge>
+                  )}
+                </Link>
+              </OverlayTrigger>
+
+              {userInfo ? (
+                <>
+                  <OverlayTrigger
+                    overlay={<Tooltip>ToyMe Member</Tooltip>}
+                    placement="bottom">
+                    <Link
+                      to="/member"
+                      className={`nav-link ${
+                        mode === "light" ? "text-dark" : "text-light"
+                      }`}>
+                      <i className="fa-solid fa-star fa-xl"></i>
+                    </Link>
+                  </OverlayTrigger>
+                  <DropdownButton
+                    variant={mode}
+                    align={{ lg: "end" }}
+                    title={<i className="fa-solid fa-user fa-xl"></i>}>
+                    <LinkContainer to="/profile">
+                      <Dropdown.Item>Your Profile</Dropdown.Item>
+                    </LinkContainer>
+                    <LinkContainer to="/profile/history">
+                      <Dropdown.Item>Order History</Dropdown.Item>
+                    </LinkContainer>
+                    <LinkContainer to="/profile/wishlist">
+                      <Dropdown.Item>Wishlist</Dropdown.Item>
+                    </LinkContainer>
+                    <LinkContainer to="/profile/shipping">
+                      <Dropdown.Item>Shipping Address</Dropdown.Item>
+                    </LinkContainer>
+                  </DropdownButton>
+                </>
+              ) : (
+                <Link
+                  to="/signin"
+                  className={`nav-link ${
+                    mode === "light" ? "text-dark" : "text-light"
+                  }`}>
+                  <i className="fa-solid fa-right-to-bracket fa-xl"></i>
+                </Link>
+              )}
+            </Nav>
+          </Col>
         </Container>
       </Navbar>
 
