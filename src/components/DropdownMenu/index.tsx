@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import "./index.scss";
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { Store } from "store";
 
 type DropdownMenu = {
@@ -22,12 +22,27 @@ export default function DropdownMenu({
   const {
     state: { mode },
   } = useContext(Store);
+
+  useEffect(() => {
+    const menuItemList = document.getElementsByClassName("menu-item");
+    const dropdownPopupList = document.getElementsByClassName("dropdown-popup");
+
+    if (menuItemList && dropdownPopupList)
+      for (const menuItem of menuItemList) {
+        menuItem.addEventListener("click", () => {
+          for (const dropdownPopup of dropdownPopupList) {
+            dropdownPopup.classList.add("d-none");
+            setTimeout(() => {
+              dropdownPopup.classList.remove("d-none");
+            }, 100);
+          }
+        });
+      }
+  }, []);
+
   return (
     <div className="dropdown">
       {title}
-      {/* <button className="bg-transparent border-0 fw-semibold text-light">
-        {title}
-      </button> */}
       <div
         className={`dropdown-popup  ${
           mode == "light" ? "bg-dark text-light" : "bg-light text-dark"
@@ -44,7 +59,7 @@ export default function DropdownMenu({
           <div className="single-menu">
             {menuList[0].itemList.map((item, index) => (
               <Link
-                to={`/catalog/${item.toLocaleLowerCase()}`}
+                to={`/catalog/${item.replaceAll(" ", "-").toLowerCase()}`}
                 key={index}
                 className={`menu-item ${mode == "light" ? "" : ""}`}>
                 {item}
@@ -58,7 +73,7 @@ export default function DropdownMenu({
                 <span className="submenu-title">{menu.title}</span>
                 {menu.itemList.map((item, index) => (
                   <Link
-                    to={`/catalog/${item.toLocaleLowerCase()}`}
+                    to={`/catalog/${item.replaceAll(" ", "-").toLowerCase()}`}
                     key={index}
                     className={`menu-item ${mode == "light" ? "" : ""}`}>
                     {item}

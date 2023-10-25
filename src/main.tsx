@@ -9,13 +9,14 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import App from "./App.tsx";
-import HomePage from "./pages/HomePage.tsx";
+import { HomePage, CatalogPage } from "@pages";
 import { StoreProvider } from "./store/index.tsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>
       <Route index element={<HomePage />} />
+      <Route index path="/catalog/*" element={<CatalogPage />} />
     </Route>
   )
 );

@@ -1,3 +1,4 @@
+import Breadcrumbs from "./Breadcrumbs";
 import DropdownMenu from "./DropdownMenu";
 
-export { DropdownMenu };
+export { DropdownMenu, Breadcrumbs };

@@ -158,7 +158,7 @@ function Header() {
         className="d-flex gap-3 justify-content-center align-items-center bg-danger"
         id="sticky-navbar">
         <LinkContainer
-          to="/catalog/new-toys"
+          to="/catalog/new-toys/anc/bnc"
           className="text-light fw-semibold">
           <Nav.Link>New Toys</Nav.Link>
         </LinkContainer>

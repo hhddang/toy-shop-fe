@@ -2,11 +2,14 @@
   "compilerOptions": {
     "target": "ES2020",
     "useDefineForClassFields": true,
-    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "lib": ["ES2020", "DOM", "DOM.Iterable", "ES2021.String"],
     "module": "ESNext",
     "skipLibCheck": true,
     "baseUrl": "src",
-    "paths": { "@components": ["./components/index.ts"] },
+    "paths": {
+      "@components": ["./components/index.ts"],
+      "@pages": ["./pages/index.ts"]
+    },
 
     /* Bundler mode */
     "moduleResolution": "bundler",

@@ -33,6 +33,9 @@
 a {
   text-decoration: none;
   color: currentColor;
+  &:hover {
+    color: red;
+  }
 }
 
 button {
