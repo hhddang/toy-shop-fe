@@ -1,0 +1,39 @@
+.price-range {
+  .slider {
+    position: relative;
+
+    #min-btn,
+    #max-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    .track {
+      height: 3px;
+      width: 100%;
+      border-radius: 20px;
+    }
+
+    input[type="range"] {
+      -webkit-appearance: none;
+      pointer-events: none;
+      background: none;
+      width: 100%;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      pointer-events: auto;
+      background: red;
+      height: 15px;
+      width: 15px;
+      border-radius: 50%;
+      transition: 0.3s;
+      border: 2px currentColor solid;
+      &:hover {
+        border-color: transparent;
+      }
+    }
+  }
+}

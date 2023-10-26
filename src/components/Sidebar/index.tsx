@@ -1,7 +1,11 @@
-import { strToPath } from "@utils";
+import { formatPrice, strToPath } from "@utils";
 import { TOP_CATEGORY_LIST } from "models/category";
-import { Container, Row } from "react-bootstrap";
+import { useState } from "react";
+import { Col, Container, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { Store } from "store";
+import { useContext } from "react";
+import "./index.scss";
 
 const SidebarItemTitle = ({ children }: { children: string }) => {
   return (
@@ -27,7 +31,7 @@ const InlineDropdown = ({
       <Link
         to={`/catalog/${strToPath(title)}`}
         className={`px-0 d-flex justify-content-between align-items-center w-100 py-1 ${
-          isActive && "text-danger fw-semibold fst-italic"
+          isActive ? "text-danger fw-semibold fst-italic" : "border-bottom"
         }`}>
         <span>{title}</span>
         <i
@@ -54,6 +58,71 @@ const InlineDropdown = ({
   );
 };
 
+const PriceRange = () => {
+  const minimum = 0;
+  const maximum = 5000000;
+  const step = 50000;
+  const [minPrice, setMinPrice] = useState(minimum);
+  const [maxPrice, setMaxPrice] = useState(maximum);
+  const {
+    state: { mode },
+  } = useContext(Store);
+
+  const changeMinPrice = (price: number) => {
+    if (price < maxPrice) setMinPrice(price);
+  };
+  const changeMaxPrice = (price: number) => {
+    if (price > minPrice) setMaxPrice(price);
+  };
+
+  return (
+    <Container fluid className="p-0 price-range">
+      <Col className="d-flex justify-content-between mb-2">
+        <span>{formatPrice(minPrice)}</span>
+        <span>{formatPrice(maxPrice)}</span>
+      </Col>
+      <Col>
+        <div className="slider">
+          <input
+            type="range"
+            id="min-btn"
+            min={minimum}
+            max={maximum}
+            step={step}
+            value={minPrice}
+            onChange={(e) =>
+              changeMinPrice(e.target.value as unknown as number)
+            }
+          />
+          <div
+            className={`track ${
+              mode == "light" ? "bg-dark" : "bg-light"
+            }`}></div>
+          <input
+            type="range"
+            id="max-btn"
+            min={minimum}
+            max={maximum}
+            step={step}
+            value={maxPrice}
+            onChange={(e) =>
+              changeMaxPrice(e.target.value as unknown as number)
+            }
+          />
+        </div>
+      </Col>
+      <Col className="d-flex justify-content-between px-1">
+        <span>|</span>
+        <span>|</span>
+        <span>|</span>
+        <span>|</span>
+        <span>|</span>
+        <span>|</span>
+      </Col>
+    </Container>
+  );
+};
+
 export default function Sidebar({
   activeKey = "Super Heroes",
 }: {
@@ -68,7 +137,7 @@ export default function Sidebar({
 
   return (
     <>
-      <Container fluid>
+      <Container fluid className="d-flex flex-column gap-4">
         <Row className="d-flex flex-column">
           <SidebarItemTitle>Category</SidebarItemTitle>
 
@@ -82,6 +151,11 @@ export default function Sidebar({
               />
             ))}
           </div>
+        </Row>
+
+        <Row className="">
+          <SidebarItemTitle>Price</SidebarItemTitle>
+          <PriceRange />
         </Row>
       </Container>
     </>
