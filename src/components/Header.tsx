@@ -15,7 +15,8 @@ import { LinkContainer } from "react-router-bootstrap";
 import { Link } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { Store } from "../store";
-import { DropdownMenu } from "@components";
+import { HoverDropdown } from "@components";
+import { TOP_CATEGORY_LIST } from "models/category";
 
 function Header() {
   const {
@@ -29,6 +30,14 @@ function Header() {
   const userInfo = {};
   const [searchText, setSearchText] = useState<string>("");
   console.log(searchText);
+
+  const ALL_TOYS_CATEGORY_DATA = TOP_CATEGORY_LIST.map((topCategory) => {
+    return {
+      title: topCategory.name,
+      itemList: topCategory.subCategoryList.map((category) => category.name),
+    };
+  });
+
   useEffect(() => {
     document.body.setAttribute("data-bs-theme", mode);
   }, [mode]);
@@ -158,57 +167,31 @@ function Header() {
         className="d-flex gap-3 justify-content-center align-items-center bg-danger"
         id="sticky-navbar">
         <LinkContainer
-          to="/catalog/new-toys/anc/bnc"
+          to="/catalog/new-toys"
           className="text-light fw-semibold">
           <Nav.Link>New Toys</Nav.Link>
         </LinkContainer>
 
-        <DropdownMenu
-          title={<button className="fw-semibold text-light">All Toys</button>}
+        <HoverDropdown
+          title="All Toys"
           place="center"
-          menuList={[
-            {
-              title: "Movie Toys",
-              itemList: ["Super Heroes", "Monsters", "Robots"],
-            },
-            {
-              title: "Assemble Toys",
-              itemList: ["Lego", "SemiBlock", "Others"],
-            },
-            { title: "Activity Toys", itemList: ["Indoor", "Outdoor"] },
-            {
-              title: "Movie Toys",
-              itemList: ["Super Heroes", "Monsters", "Robots"],
-            },
-            {
-              title: "Assemble Toys",
-              itemList: ["Lego", "SemiBlock", "Others"],
-            },
-            { title: "Activity Toys", itemList: ["Indoor", "Outdoor"] },
-            {
-              title: "Movie Toys",
-              itemList: ["Super Heroes", "Monsters", "Robots"],
-            },
-            {
-              title: "Assemble Toys",
-              itemList: ["Lego", "SemiBlock", "Others"],
-            },
-            { title: "Activity Toys", itemList: ["Indoor", "Outdoor"] },
-          ]}
+          menuList={ALL_TOYS_CATEGORY_DATA}
         />
 
-        <DropdownMenu
-          title={<button className="fw-semibold text-light">Genders</button>}
+        <HoverDropdown
+          title="Genders"
           menuList={[{ itemList: ["Boy", "Girl", "Unisex"] }]}
         />
 
-        <DropdownMenu
-          title={<button className="fw-semibold text-light">Ages</button>}
-          menuList={[{ itemList: ["0-3 years", "3-12 years", "12 years +"] }]}
+        <HoverDropdown
+          title="Ages"
+          menuList={[
+            { itemList: ["0 to 3 years", "3 to 12 years", "12 years+"] },
+          ]}
         />
 
-        <DropdownMenu
-          title={<button className="fw-semibold text-light">Brands</button>}
+        <HoverDropdown
+          title="Brands"
           menuList={[{ itemList: ["Lego", "Marvel"] }]}
         />
       </div>

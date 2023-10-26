@@ -2,6 +2,7 @@ import { useLocation } from "react-router-dom";
 import { Breadcrumb as BBreadcrumb } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import { useEffect } from "react";
+import { pathToStr } from "@utils";
 
 export default function Breadcrumbs() {
   const location = useLocation();
@@ -25,7 +26,7 @@ export default function Breadcrumbs() {
               <BBreadcrumb.Item
                 active={index == breadcrumbList.length - 1}
                 className="text-capitalize">
-                {breadcrumb.replaceAll("-", " ")}
+                {pathToStr(breadcrumb)}
               </BBreadcrumb.Item>
             </LinkContainer>
           );

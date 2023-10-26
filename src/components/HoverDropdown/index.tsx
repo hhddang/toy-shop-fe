@@ -1,35 +1,37 @@
 import { Link } from "react-router-dom";
 import "./index.scss";
-import React, { useContext, useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { Store } from "store";
+import { strToPath } from "@utils";
 
-type DropdownMenu = {
+type Menu = {
   title?: string;
   itemList: string[];
 };
 
-type DropdownMenuProps = {
-  title: React.ReactElement;
-  menuList: DropdownMenu[];
+type Props = {
+  title: string;
+  menuList: Menu[];
   place?: "start" | "center" | "end";
 };
 
-export default function DropdownMenu({
+export default function HoverDropdown({
   title,
   menuList,
   place = "center",
-}: DropdownMenuProps) {
+}: Props) {
   const {
     state: { mode },
   } = useContext(Store);
 
   useEffect(() => {
     const menuItemList = document.getElementsByClassName("menu-item");
+    const subMenuTitleList = document.getElementsByClassName("submenu-title");
     const dropdownPopupList = document.getElementsByClassName("dropdown-popup");
 
-    if (menuItemList && dropdownPopupList)
-      for (const menuItem of menuItemList) {
-        menuItem.addEventListener("click", () => {
+    if (menuItemList && dropdownPopupList && subMenuTitleList)
+      for (const item of [...menuItemList, ...subMenuTitleList]) {
+        item.addEventListener("click", () => {
           for (const dropdownPopup of dropdownPopupList) {
             dropdownPopup.classList.add("d-none");
             setTimeout(() => {
@@ -41,8 +43,8 @@ export default function DropdownMenu({
   }, []);
 
   return (
-    <div className="dropdown">
-      {title}
+    <div className="hover-dropdown">
+      <button className="fw-semibold text-light">{title}</button>
       <div
         className={`dropdown-popup  ${
           mode == "light" ? "bg-dark text-light" : "bg-light text-dark"
@@ -59,7 +61,7 @@ export default function DropdownMenu({
           <div className="single-menu">
             {menuList[0].itemList.map((item, index) => (
               <Link
-                to={`/catalog/${item.replaceAll(" ", "-").toLowerCase()}`}
+                to={`/catalog/${strToPath(item)}`}
                 key={index}
                 className={`menu-item ${mode == "light" ? "" : ""}`}>
                 {item}
@@ -70,10 +72,14 @@ export default function DropdownMenu({
           <div className="multi-menu">
             {menuList.map((menu, index) => (
               <div key={index} className="submenu">
-                <span className="submenu-title">{menu.title}</span>
+                <Link
+                  to={`/catalog/${strToPath(menu.title!)}`}
+                  className="submenu-title">
+                  {menu.title}
+                </Link>
                 {menu.itemList.map((item, index) => (
                   <Link
-                    to={`/catalog/${item.replaceAll(" ", "-").toLowerCase()}`}
+                    to={`/catalog/${strToPath(menu.title!)}/${strToPath(item)}`}
                     key={index}
                     className={`menu-item ${mode == "light" ? "" : ""}`}>
                     {item}

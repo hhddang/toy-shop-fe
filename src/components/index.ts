@@ -1,4 +1,4 @@
 import Breadcrumbs from "./Breadcrumbs";
-import DropdownMenu from "./DropdownMenu";
+import HoverDropdown from "./HoverDropdown";
 
-export { DropdownMenu, Breadcrumbs };
+export { HoverDropdown, Breadcrumbs };
