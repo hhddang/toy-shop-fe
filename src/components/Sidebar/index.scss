@@ -37,3 +37,26 @@
     }
   }
 }
+
+.checkbox-item {
+  input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    position: relative;
+  }
+
+  input[type="checkbox"]:checked {
+    -webkit-appearance: none;
+    background-color: red;
+    border-radius: 3px;
+  }
+
+  input[type="checkbox"]:checked:after {
+    content: "\2713";
+    color: currentColor;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translateY(-50%) translateX(-50%);
+  }
+}

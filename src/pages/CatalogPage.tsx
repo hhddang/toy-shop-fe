@@ -17,7 +17,7 @@ export default function CatalogPage() {
         <Row>
           <Breadcrumbs />
         </Row>
-        <Row>
+        <Row className="mt-2">
           <Col className="col-3">
             <Sidebar activeKey={sidebarKey} />
           </Col>
