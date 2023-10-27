@@ -4,6 +4,7 @@ import "./index.scss";
 import InlineDropdown from "./subComponents/InlineDropdown";
 import PriceRange from "./subComponents/PriceRange";
 import CheckboxItem from "./subComponents/CheckboxItem";
+import { BrandService } from "@services";
 
 const SidebarGroupTitle = ({ children }: { children: string }) => {
   return (
@@ -22,6 +23,8 @@ export default function Sidebar({
       itemList: topCategory.subCategoryList.map((category) => category.name),
     };
   });
+
+  const brandNameList = BrandService.getNameList();
 
   return (
     <>
@@ -61,7 +64,7 @@ export default function Sidebar({
 
         <Row>
           <SidebarGroupTitle>Brand</SidebarGroupTitle>
-          {["Lego", "Pony", "Slimy", "Barbie"].map((item, index) => (
+          {brandNameList.map((item, index) => (
             <CheckboxItem key={index} groupName="Brand" text={item} />
           ))}
         </Row>

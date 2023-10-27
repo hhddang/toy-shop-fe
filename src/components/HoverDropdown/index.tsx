@@ -2,21 +2,28 @@ import { Link } from "react-router-dom";
 import "./index.scss";
 import { useContext, useEffect } from "react";
 import { Store } from "store";
-import { strToPath } from "@utils";
+
+type MenuItem = {
+  text: string;
+  slug: string;
+};
 
 type Menu = {
   title?: string;
-  itemList: string[];
+  slug?: string;
+  itemList: MenuItem[];
 };
 
 type Props = {
   title: string;
+  slug?: string;
   menuList: Menu[];
   place?: "start" | "center" | "end";
 };
 
 export default function HoverDropdown({
   title,
+  slug,
   menuList,
   place = "center",
 }: Props) {
@@ -61,10 +68,10 @@ export default function HoverDropdown({
           <div className="single-menu">
             {menuList[0].itemList.map((item, index) => (
               <Link
-                to={`/catalog/${strToPath(item)}`}
+                to={`/catalog?${slug}=${item.slug}`}
                 key={index}
                 className={`menu-item ${mode == "light" ? "" : ""}`}>
-                {item}
+                {item.text}
               </Link>
             ))}
           </div>
@@ -72,17 +79,15 @@ export default function HoverDropdown({
           <div className="multi-menu">
             {menuList.map((menu, index) => (
               <div key={index} className="submenu">
-                <Link
-                  to={`/catalog/${strToPath(menu.title!)}`}
-                  className="submenu-title">
+                <Link to={`/catalog/${menu.slug}`} className="submenu-title">
                   {menu.title}
                 </Link>
                 {menu.itemList.map((item, index) => (
                   <Link
-                    to={`/catalog/${strToPath(menu.title!)}/${strToPath(item)}`}
+                    to={`/catalog/${menu.slug}/${item.slug}`}
                     key={index}
                     className={`menu-item ${mode == "light" ? "" : ""}`}>
-                    {item}
+                    {item.text}
                   </Link>
                 ))}
               </div>

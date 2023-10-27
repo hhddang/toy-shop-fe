@@ -1,8 +1,8 @@
 import Banner from "../components/Banner";
 import BrandList from "../components/BrandList";
 import ToyCarouselList from "../components/ToyCarouselList";
-import { BRAND_LIST } from "../models/brand";
 import { TOY_LIST } from "../models/toy";
+
 function HomePage() {
   return (
     <>
@@ -15,7 +15,7 @@ function HomePage() {
         <ToyCarouselList title="Special Sales" toyList={TOY_LIST} />
       </div>
 
-      <BrandList brandList={BRAND_LIST} />
+      <BrandList />
     </>
   );
 }

@@ -17,6 +17,8 @@ import { useContext, useEffect, useState } from "react";
 import { Store } from "../store";
 import { HoverDropdown } from "@components";
 import { TOP_CATEGORY_LIST } from "models/category";
+import { BrandService } from "@services";
+import { strToPath } from "@utils";
 
 function Header() {
   const {
@@ -31,10 +33,16 @@ function Header() {
   const [searchText, setSearchText] = useState<string>("");
   console.log(searchText);
 
-  const ALL_TOYS_CATEGORY_DATA = TOP_CATEGORY_LIST.map((topCategory) => {
+  const ALL_TOYS_CATEGORY_DATA: Parameters<
+    typeof HoverDropdown
+  >[0]["menuList"] = TOP_CATEGORY_LIST.map((topCategory) => {
     return {
       title: topCategory.name,
-      itemList: topCategory.subCategoryList.map((category) => category.name),
+      slug: strToPath(topCategory.name),
+      itemList: topCategory.subCategoryList.map((category) => ({
+        text: category.name,
+        slug: strToPath(category.name),
+      })),
     };
   });
 
@@ -57,6 +65,8 @@ function Header() {
       });
     }
   }, []);
+
+  const brandNameSlugList = BrandService.getNameSlugList();
 
   return (
     <header>
@@ -179,20 +189,37 @@ function Header() {
         />
 
         <HoverDropdown
-          title="Genders"
-          menuList={[{ itemList: ["Boy", "Girl", "Unisex"] }]}
-        />
-
-        <HoverDropdown
-          title="Ages"
+          title="Gender"
+          slug="gender"
           menuList={[
-            { itemList: ["0 to 3 years", "3 to 12 years", "12 years+"] },
+            {
+              itemList: [
+                { text: "Boy", slug: "boy" },
+                { text: "Girl", slug: "girl" },
+                { text: "Unisex", slug: "unisex" },
+              ],
+            },
           ]}
         />
 
         <HoverDropdown
-          title="Brands"
-          menuList={[{ itemList: ["Lego", "Marvel"] }]}
+          title="Age"
+          slug="age"
+          menuList={[
+            {
+              itemList: [
+                { text: "0 to 3 years", slug: "0-to-3" },
+                { text: "3 to 12 years", slug: "3-to-12" },
+                { text: "12 years+", slug: "12+" },
+              ],
+            },
+          ]}
+        />
+
+        <HoverDropdown
+          title="Brand"
+          slug="brand"
+          menuList={[{ itemList: brandNameSlugList }]}
         />
       </div>
     </header>
