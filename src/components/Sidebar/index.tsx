@@ -4,7 +4,7 @@ import "./index.scss";
 import InlineDropdown from "./subComponents/InlineDropdown";
 import PriceRange from "./subComponents/PriceRange";
 import CheckboxItem from "./subComponents/CheckboxItem";
-import { BrandService } from "@services";
+import { useGetAllBrand } from "@hooks/brandHooks";
 
 const SidebarGroupTitle = ({ children }: { children: string }) => {
   return (
@@ -24,10 +24,11 @@ export default function Sidebar({
     };
   });
 
-  const brandNameList = BrandService.getNameList();
+  const { data: brandList, isLoading, error } = useGetAllBrand();
 
   return (
-    <>
+    !isLoading &&
+    !error && (
       <Container fluid className="d-flex flex-column gap-4">
         <Row className="d-flex flex-column">
           <SidebarGroupTitle>Category</SidebarGroupTitle>
@@ -64,11 +65,11 @@ export default function Sidebar({
 
         <Row>
           <SidebarGroupTitle>Brand</SidebarGroupTitle>
-          {brandNameList.map((item, index) => (
-            <CheckboxItem key={index} groupName="Brand" text={item} />
+          {brandList!.map((brand, index) => (
+            <CheckboxItem key={index} groupName="Brand" text={brand.name} />
           ))}
         </Row>
       </Container>
-    </>
+    )
   );
 }
