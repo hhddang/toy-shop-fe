@@ -111,3 +111,5 @@ export default MyComponent = () => {
     )
 }
 ```
+## Incoming features
+1. CI/CD
