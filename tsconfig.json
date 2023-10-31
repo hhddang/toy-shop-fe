@@ -10,7 +10,8 @@
       "@components": ["./components/index.ts"],
       "@pages": ["./pages/index.ts"],
       "@utils": ["./utils/index.ts"],
-      "@hooks/*": ["./hooks/*"]
+      "@hooks/*": ["./hooks/*"],
+      "@models": ["./models"]
     },
 
     /* Bundler mode */

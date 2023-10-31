@@ -1,73 +1,10 @@
-import { Badge, Button, Container, Image } from "react-bootstrap";
+import { Button, Container } from "react-bootstrap";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css/bundle";
-import { useEffect, useState } from "react";
 import { LinkContainer } from "react-router-bootstrap";
-import { Toy } from "../models/toy";
-
-const ToyItem = ({ toy }: { toy: Toy }) => {
-  const {
-    id,
-    imageList,
-    name,
-    price,
-    isDiscounted,
-    oldPrice,
-    discount,
-    isNew,
-  } = toy;
-  const [imgUrl, setImgUrl] = useState(imageList[0]);
-
-  useEffect(() => {
-    const toyItem = document.getElementById(`toy-item-${id}`);
-    toyItem?.addEventListener("mouseover", () => {
-      setImgUrl(imageList[1]);
-    });
-    toyItem?.addEventListener("mouseout", () => {
-      setImgUrl(imageList[0]);
-    });
-  }, [id, imageList]);
-
-  return (
-    <div className="border">
-      <LinkContainer to={`/toy/${id}`}>
-        <a id={`toy-item-${id}`} className="">
-          <Image src={imgUrl} className="w-100 p-0"></Image>
-
-          <div className="d-flex flex-column gap-2 p-2 bg-light text-dark">
-            <span className="fw-bold">{name}</span>
-            <span>SKU: {id}</span>
-            <div className="d-flex justify-content-between fw-semibold">
-              <span className="text-danger">{price} VND</span>
-              {isDiscounted && (
-                <span className="text-decoration-line-through">
-                  {oldPrice} VND
-                </span>
-              )}
-            </div>
-          </div>
-
-          {isDiscounted && (
-            <Badge
-              bg="danger"
-              className="position-absolute top-0 fs-6 rounded-0">
-              {discount}%
-            </Badge>
-          )}
-
-          {isNew && (
-            <Badge
-              bg="danger"
-              className="position-absolute top-0 end-0 fs-6 rounded-0 z-1">
-              New
-            </Badge>
-          )}
-        </a>
-      </LinkContainer>
-    </div>
-  );
-};
+import { ToyCard } from "@components";
+import { Toy } from "@models";
 
 export default function ToyCarouselList({
   title,
@@ -107,7 +44,7 @@ export default function ToyCarouselList({
             }}>
             {toyList.map((toy, index) => (
               <SwiperSlide key={index}>
-                <ToyItem toy={toy} />
+                <ToyCard toy={toy} />
               </SwiperSlide>
             ))}
           </Swiper>

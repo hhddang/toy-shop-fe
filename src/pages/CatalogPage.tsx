@@ -1,6 +1,5 @@
 import { Col, Container, Row } from "react-bootstrap";
-import { Breadcrumbs } from "@components";
-import Sidebar from "components/Sidebar";
+import { Breadcrumbs, Sidebar, ToyList, Pagination } from "@components";
 import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 
@@ -21,7 +20,10 @@ export default function CatalogPage() {
           <Col className="col-3">
             <Sidebar activeKey={sidebarKey} />
           </Col>
-          <Col className="col-9">toy-list</Col>
+          <Col className="col-9 d-flex flex-column gap-3 align-items-center">
+            <ToyList />
+            <Pagination />
+          </Col>
         </Row>
       </Container>
     </>
